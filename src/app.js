@@ -1,5 +1,5 @@
-var FORGE_CLIENT_ID = "CgWFRlbk4LZuZ6S3WDPVLDJzPLUYJy3h";
-var FORGE_CLIENT_SECRET = "5NUAhwO9RKg2Zulo";
+var FORGE_CLIENT_ID = FORGE_CLIENT_ID;
+var FORGE_CLIENT_SECRET = FORGE_CLIENT_SECRET;
 var scopes = 'data:read data:write data:create bucket:create bucket:read';
 var access_token = '';
 // Buckey key and Policy Key for OSS
