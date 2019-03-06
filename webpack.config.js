@@ -16,8 +16,7 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
-          }
-          // other vue-loader options go here
+          },
         }
       },
       {
@@ -63,7 +62,10 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
+        FORGE_CLIENT_ID : '"CgWFRlbk4LZuZ6S3WDPVLDJzPLUYJy3h"',
+        FORGE_CLIENT_SECRET : '"K6f39943beb12432"',
+        PROXY_URL : '"http://localhost:8010/proxy"'
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -74,6 +76,17 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  ])
+} else {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"',
+        FORGE_CLIENT_ID : '"CgWFRlbk4LZuZ6S3WDPVLDJzPLUYJy3h"',
+        FORGE_CLIENT_SECRET : '"K6f39943beb12432"',
+        PROXY_URL : '"http://localhost:8010/proxy"'
+      }
     })
   ])
 }

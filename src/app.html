@@ -1,4 +1,21 @@
 <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
+    <b-container>
+        <b-row class="text-center entete" align-v="center">
+            <b-col>
+                <b-img :src="require('./assets/logo.png')" fluid width="100px"/>
+            </b-col>
+            <b-col cols="11">
+                <h1>Smart Use convergence BIM et IoT</h1>
+            </b-col>
+        </b-row>
+        <file-loader :token="token" :urn="urn" @urnUpdated="updateUrn"></file-loader>
+        <b-row class="text-center components">
+            <b-col cols="10">
+                <viewer :isLoaded="isLoaded" :urn="urn"></viewer>
+            </b-col>
+            <b-col>
+                <stats></stats>
+            </b-col>
+        </b-row>
+    </b-container>
 </div>
