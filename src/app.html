@@ -11,10 +11,10 @@
         <file-loader :token="token" :urn="urn" @urnUpdated="updateUrn" @isLoading="isLoading"></file-loader>
         <b-row class="text-center components">
             <b-col cols="10">
-                <viewer :isLoaded="isLoaded" :urn="urn"></viewer>
+                <viewer :isLoaded="isLoaded" :urn="urn" @itemSelectedChanged="itemSelectedChanged"></viewer>
             </b-col>
             <b-col>
-                <stats></stats>
+                <stats :item="itemSelected"></stats>
             </b-col>
         </b-row>
     </b-container>

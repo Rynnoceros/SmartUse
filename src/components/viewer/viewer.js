@@ -12,7 +12,8 @@ export default {
                 api: 'derivativeV2',
                 getAccessToken: this.getForgeToken
             },
-            viewables: null
+            viewables: null,
+            selectedItem: null
         }
     },
     methods: {
@@ -72,7 +73,20 @@ export default {
                 console.log("getForgeToken callback :" + response.access_token + " " + response.expires_in);
                 callback(response.access_token, response.expires_in);
             })
-        }
+        },
+        clicked() {
+            if (viewerApp != null) {
+                var item = viewerApp.getCurrentViewer().getSelection();
+                if (item != this.selectedItem) {
+                    this.selectedItem = item;
+                    this.onSelectedItemChanged();
+                    this.$emit("itemSelectedChanged", this.selectedItem);
+                }
+            }
+        },
+        onSelectedItemChanged() {
+            console.log("Selection changed : " + this.selectedItem);
+        },
     },
     watch: {
         urn: function(newVal, oldVal) {

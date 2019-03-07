@@ -14,7 +14,8 @@ export default {
         return {
             isLoaded: true,
             token: '',
-            urn: ''
+            urn: '',
+            itemSelected: null
         }
     },
     created() {
@@ -58,6 +59,9 @@ export default {
         },
         isLoading() {
             this.isLoaded = false;
+        },
+        itemSelectedChanged(item) {
+            this.itemSelected = item;
         }
     },
 }
