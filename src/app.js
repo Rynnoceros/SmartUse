@@ -12,7 +12,7 @@ export default {
     },
     data () {
         return {
-            isLoaded: false,
+            isLoaded: true,
             token: '',
             urn: ''
         }
@@ -32,7 +32,6 @@ export default {
                 .then(response => {
                     getBucketDetail(this.token)
                     .then(response => {
-                        this.isLoaded = true;
                         console.log("logged sucessfully");
                     })
                     .catch(error => {
@@ -55,6 +54,10 @@ export default {
         },
         updateUrn(urn) {
             this.urn = urn;
+            this.isLoaded = true;
+        },
+        isLoading() {
+            this.isLoaded = false;
         }
     },
 }

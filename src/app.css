@@ -11,6 +11,10 @@
     background-color: lightgray;
 }
 
+.container {
+    max-width: 100%;
+}
+
 .components {
     height: 80vh;
 }

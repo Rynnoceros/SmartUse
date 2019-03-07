@@ -76,6 +76,7 @@ export default {
             })
         },
         clicked() {
+            this.$emit("isLoading");
             this.loadFile();
         }
     }

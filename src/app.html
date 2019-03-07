@@ -8,7 +8,7 @@
                 <h1>Smart Use convergence BIM et IoT</h1>
             </b-col>
         </b-row>
-        <file-loader :token="token" :urn="urn" @urnUpdated="updateUrn"></file-loader>
+        <file-loader :token="token" :urn="urn" @urnUpdated="updateUrn" @isLoading="isLoading"></file-loader>
         <b-row class="text-center components">
             <b-col cols="10">
                 <viewer :isLoaded="isLoaded" :urn="urn"></viewer>

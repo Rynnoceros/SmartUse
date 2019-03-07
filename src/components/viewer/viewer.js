@@ -9,48 +9,67 @@ export default {
         return {
             options : {
                 env: 'AutodeskProduction',
-                api: 'derivativeV2', // TODO: for models uploaded to EMEA change this option to 'derivativeV2_EU'
+                api: 'derivativeV2',
                 getAccessToken: this.getForgeToken
             },
+            viewables: null
         }
     },
     methods: {
-        getUrlUrn(name) {
-            name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        },
         onDocumentLoadSuccess(doc) {
             // We could still make use of Document.getSubItemsWithProperties()
             // However, when using a ViewingApplication, we have access to the **bubble** attribute,
             // which references the root node of a graph that wraps each object from the Manifest JSON.
-            var viewables = viewerApp.bubble.search({'type':'geometry'});
+            this.viewables = viewerApp.bubble.search({'type':'geometry'});
             console.log("onDocumentLoadSuccess");
-            if (viewables.length === 0) {
+            if (this.viewables.length === 0) {
                 console.error('Document contains no viewables.');
                 return;
             }
             // Choose any of the avialble viewables
-            viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+            if (viewerApp != null) {
+                viewerApp.selectItem(this.viewables[0].data, this.onItemLoadSuccess.bind(this), this.onItemLoadFail.bind(this));
+            }
+        },
+        onItemLoadSuccess(viewer, item) {
+            console.log('onItemLoadSuccess()!');
+            console.log(viewer);
+            console.log(item);
+            // Congratulations! The viewer is now ready to be used.
+            console.log('Viewers are equal: ' + (viewer === viewerApp.getCurrentViewer()));
+        },
+        onItemLoadFail(viewerErrorCode) {
+            console.error('onLoadModelError() - errorCode:' + viewerErrorCode);
+            //jQuery('#MyViewerDiv').html('<p>There is an error fetching the translated SVF file. Please try refreshing the page.</p>');
         },
         onDocumentLoadFailure(viewerErrorCode) {
             console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
         },
         loadViewer() {
             Autodesk.Viewing.Initializer(this.$data.options, function onInitialized(){
-                viewerApp = new Autodesk.Viewing.ViewingApplication('MyViewerDiv');
-                viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
-                viewerApp.loadDocument(this.documentId(), this.onDocumentLoadSuccess, this.onDocumentLoadFailure);
+                console.log("Initializing viewer");
+                if (viewerApp == null) {
+                    viewerApp = new Autodesk.Viewing.ViewingApplication('MyViewerDiv');
+                    viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D);
+                }
+                console.log("Viewer initialized");
             });
         },
+        loadDocument(documentToLoad) {
+            if (viewerApp != null) {
+                viewerApp.loadDocument(documentToLoad,this.onDocumentLoadSuccess.bind(this),
+                                       this.onDocumentLoadFailure.bind(this));
+            }
+        },
         documentId() { 
-            return "urn:" + getUrlUrn(this.urn);
+            console.log("documentId return : urn:" + this.urn);
+            return "urn:" + this.urn;
         },
         getForgeToken(callback) {
             authenticate()
             .then(response => response.json())
             .then(response => {
+                console.log("getForgeToken callback :" + response.access_token + " " + response.expires_in);
                 callback(response.access_token, response.expires_in);
             })
         }
@@ -59,6 +78,9 @@ export default {
         urn: function(newVal, oldVal) {
             console.log("Urn received");
             console.log("Loading 3D Viewer");
+            this.loadDocument(this.documentId());
+        },
+        isLoaded: function(newVal, oldVal) {
             this.loadViewer();
         }
     }
