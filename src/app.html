@@ -14,7 +14,7 @@
                 <viewer :isLoaded="isLoaded" :urn="urn" @itemSelectedChanged="itemSelectedChanged"></viewer>
             </b-col>
             <b-col>
-                <stats :item="itemSelected"></stats>
+                <stats :item="itemSelected" :isLoaded="isLoaded"></stats>
             </b-col>
         </b-row>
     </b-container>

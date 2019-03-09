@@ -1,8 +1,11 @@
-<div v-if="isLoaded" class="viewer">
-    <div id="MyViewerDiv" class="viewer" v-on:click="clicked"></div> 
-</div>
-<div v-else class="viewer">
-    <div class="spinner-border" role="status" style="width: 10rem; height: 10rem; margin-top: 10%"> 
-        <span class="sr-only">Loading...</span>
+<div class="viewer">
+    <h4>Viewer</h4>
+    <div v-if="isLoaded" class="viewer">
+        <div id="MyViewerDiv" class="viewer" v-on:click="clicked"></div> 
+    </div>
+    <div v-else class="viewer">
+        <div class="spinner-border" role="status" style="width: 10rem; height: 10rem; margin-top: 10%"> 
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 </div>

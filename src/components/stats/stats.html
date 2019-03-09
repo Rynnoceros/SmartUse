@@ -1,5 +1,8 @@
-<b-embed
-    type="iframe"
-    aspect="4by3"
-    :src="source"
-/>
+<div class="stats">
+    <h4>Statistics</h4>
+    <b-embed v-if="loaded"
+        type="iframe"
+        aspect="4by3"
+        :src="source"
+    />
+</div>
