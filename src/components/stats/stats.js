@@ -12,7 +12,7 @@ export default {
             source: urlInfluDb,
             currentTemp: urlCurrentTemp,
             loaded: false,
-            interval: null
+            interval: undefined
         }
     },
     methods: {
@@ -35,13 +35,12 @@ export default {
             console.log("item changed");
             this.source = urlInfluDb + "&var-id=" + this.item;
             this.currentTemp = urlCurrentTemp + "&var-id=" + this.item;
-            if (this.interval != null) {
+            if (this.interval !== null && this.interval !== undefined) {
                 clearInterval(this.interval);
-                this.interval = null;
             }
             if (this.item != null) {
-                if (this.interval == null) {
-                    this.interval = setInterval(this.createRandomData.bind(this),5000);
+                if (this.interval === null || this.interval === undefined) {
+                    this.interval = setInterval(this.createRandomData,5000);
                 }
             }
         },
